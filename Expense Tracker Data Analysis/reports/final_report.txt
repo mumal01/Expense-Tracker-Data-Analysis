@@ -1,0 +1,12 @@
+
+Expense Tracker Data Analysis – Key Insights
+
+Findings:
+1. Food and Rent are the highest expense categories.
+2. Monthly expenses show consistent spending with occasional spikes.
+3. Entertainment and shopping present potential saving opportunities.
+
+Recommendations:
+- Set monthly category-wise budgets.
+- Reduce discretionary spending.
+- Track expenses weekly for better control.
