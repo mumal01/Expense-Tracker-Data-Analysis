@@ -1,21 +1,64 @@
-
+1️⃣ Load & Clean Data
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-df = pd.read_csv('../data/expenses_data.csv')
+df = pd.read_csv("hostel_life_expense_tracker.csv")
 df['Date'] = pd.to_datetime(df['Date'])
-df['Month'] = df['Date'].dt.month
 
-# Category-wise expenses
-category_sum = df.groupby('Category')['Amount'].sum().reset_index()
-sns.barplot(x='Category', y='Amount', data=category_sum)
-plt.title('Category-wise Expenses')
-plt.xticks(rotation=45)
-plt.show()
+df.info()
 
-# Monthly expenses
-monthly_sum = df.groupby('Month')['Amount'].sum().reset_index()
-sns.lineplot(x='Month', y='Amount', data=monthly_sum, marker='o')
-plt.title('Monthly Expense Trend')
-plt.show()
+2️⃣ Monthly Expense Trend
+monthly_expense = (
+    df.groupby(df['Date'].dt.to_period('M'))['Amount']
+    .sum()
+    .reset_index()
+)
+
+monthly_expense['Date'] = monthly_expense['Date'].astype(str)
+monthly_expense
+
+
+Insight:
+Helps track spending increase/decrease per month.
+
+3️⃣ Category-Wise Expense Analysis
+category_expense = (
+    df.groupby('Expense_Type')['Amount']
+    .sum()
+    .sort_values(ascending=False)
+)
+
+category_expense
+
+
+Insight:
+Identifies top spending categories (e.g., Food, Snacks, Travel).
+
+4️⃣ Daily Average Spend
+daily_avg = df.groupby('Date')['Amount'].sum().mean()
+daily_avg
+
+
+Use Case:
+Benchmark daily spending to control unnecessary expenses.
+
+5️⃣ High-Expense Transactions Detection
+threshold = df['Amount'].mean() * 2
+
+high_expenses = df[df['Amount'] > threshold]
+high_expenses
+
+
+Business Insight:
+Flags unplanned or unusually high expenses.
+
+6️⃣ Payment Mode Analysis
+payment_summary = (
+    df.groupby('Payment_Mode')['Amount']
+    .agg(['count', 'sum'])
+)
+
+payment_summary
+
+
+Insight:
+Shows shift towards digital payments (UPI).
